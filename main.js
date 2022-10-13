@@ -1,13 +1,13 @@
 // 카카오맵
 var container = document.getElementById("map");
 var options = {
-  center: new kakao.maps.LatLng(33.450701, 126.570667),
+  center: new kakao.maps.LatLng(35.8683476, 128.5940482),
   level: 3,
 };
 
 var map = new kakao.maps.Map(container, options);
 //마커 포인터
-var markerPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+var markerPosition = new kakao.maps.LatLng(35.8683476, 128.5940482);
 
 // 마커를 생성합니다
 var marker = new kakao.maps.Marker({
@@ -17,16 +17,23 @@ var marker = new kakao.maps.Marker({
 // 마커가 지도 위에 표시되도록 설정합니다
 marker.setMap(map);
 
+// function markerCheck(maplist) {
+//   console.log("markerCheck", maplist);
+// }
+
 // 공공api 담을 배열
 let campingList = [];
+
 // 공공api의 좌표를 담을 배열
 let locateList = [];
+console.log("🚀 ~ file: main.js ~ line 24 ~ locateList", locateList);
 
 let selectList = document.getElementById("show-all-list");
 console.log("selectList", selectList);
 
 selectList.addEventListener("change", (event) => {
   console.log(event);
+  getListInfo(event);
 });
 
 // selectList.forEach((item) =>
@@ -112,13 +119,13 @@ const baseCampAPI = async () => {
   //   `https://apis.data.go.kr/B551011/GoCamping/basedList?numOfRows=8&pageNo=1&MobileOS=etc&MobileApp=testweb&serviceKey=gBtrW32SeG0AZeOPjc0%2Bn%2F1UjMBufXyvAG%2B64flFVxhcnH5eLBFXjqT%2FAu9BA7cxV3fujI%2Blkhwr%2BzYi4%2BneSw%3D%3D&_type=json`
   // );
   let url = new URL(
-    `https://apis.data.go.kr/B551011/GoCamping/locationBasedList?numOfRows=5&pageNo=1&MobileOS=etc&MobileApp=testweb&serviceKey=gBtrW32SeG0AZeOPjc0%2Bn%2F1UjMBufXyvAG%2B64flFVxhcnH5eLBFXjqT%2FAu9BA7cxV3fujI%2Blkhwr%2BzYi4%2BneSw%3D%3D&mapX=128.6142847&mapY=36.0345423&radius=20000&_type=json`
+    `https://apis.data.go.kr/B551011/GoCamping/locationBasedList?numOfRows=5&pageNo=1&MobileOS=etc&MobileApp=testweb&serviceKey=gBtrW32SeG0AZeOPjc0%2Bn%2F1UjMBufXyvAG%2B64flFVxhcnH5eLBFXjqT%2FAu9BA7cxV3fujI%2Blkhwr%2BzYi4%2BneSw%3D%3D&mapX=128.5940482&mapY=35.8683476&radius=20000&_type=json`
   );
   let response = await fetch(url);
   let data = await response.json();
-  console.log(data);
+  console.log("baseCampAPI 안의", data);
   campingList = data.response.body.items.item;
-  console.log(campingList);
+  console.log("baseCampAPI 안의", campingList);
 
   render();
 };
@@ -126,29 +133,37 @@ const baseCampAPI = async () => {
 const render = () => {
   let campingHTML = "";
   campingHTML = campingList
-    .map((campingList) => {
+    .map((item) => {
+      maplist = {
+        mapX: item.mapX,
+        mapY: item.mapY,
+      };
+      locateList.push(maplist);
+      // markerCheck(maplist);
+      console.log("map도는 캠핑리스트", locateList);
+
       return `<div class="camping-list">
-        <div class="camping-img">
-            <img class="camping-img-size" src="${campingList.firstImageUrl}" alt="">
-        </div>
-        <div class="camping-desc">
-            <h2>${campingList.facltNm}</h2><span class="point-desc"> 주소: ${campingList.addr1}</span>
-            <p><span class="point-desc">내부시설:</span>
-                ${campingList.glampInnerFclty}
-            </p>
-            <p><span class="point-desc">소개글:</span>
-                ${campingList.intro}
-                </p>
-                <span class="point-desc">애견동반:</span>${campingList.animalCmgCl}   
-            <div><span class="point-desc">좌표:</span>
-                ${campingList.mapX} * ${campingList.mapY}
-            </div>
-            <p>
-            <a href="${campingList.homepage}" target="_blank">홈페이지 바로가기</a>
-            <a href="${campingList.resveUrl}" target="_blank">실시간 예약</a>
-            </p>
-        </div>
-    </div>`;
+                <div class="camping-img">
+                    <img class="camping-img-size" src="${item.firstImageUrl}" alt="">
+                </div>
+                <div class="camping-desc">
+                    <h2>${item.facltNm}</h2><span class="point-desc"> 주소: ${item.addr1}</span>
+                    <p><span class="point-desc">내부시설:</span>
+                        ${item.glampInnerFclty}
+                    </p>
+                    <p><span class="point-desc">소개글:</span>
+                        ${item.intro}
+                        </p>
+                        <span class="point-desc">애견동반:</span>${item.animalCmgCl}   
+                    <div><span class="point-desc">좌표:</span>
+                        ${item.mapX} * ${item.mapY}
+                    </div>
+                    <p>
+                    <a href="${item.homepage}" target="_blank">홈페이지 바로가기</a>
+                    <a href="${item.resveUrl}" target="_blank">실시간 예약</a>
+                    </p>
+                </div>
+            </div>`;
     })
     .join("");
 
@@ -156,16 +171,20 @@ const render = () => {
 };
 
 const getListInfo = async (event) => {
-  console.log("클릭됨", event.target.textContent);
-  let topic = event.target.textContent;
+  console.log("클릭됨MapY", event.path[6].markerPosition.La);
+  console.log("클릭됨MapX", event.path[6].markerPosition.Ma);
+  let topic = event.target.value;
+  // let mapX = event.path[6].markerPosition.Ma;
+  // let mapY = event.path[6].markerPosition.La;
   console.log("토픽", topic);
   let url = new URL(
-    `https://apis.data.go.kr/B551011/GoCamping/locationBasedList?numOfRows=${topic}&pageNo=1&MobileOS=etc&MobileApp=testweb&serviceKey=gBtrW32SeG0AZeOPjc0%2Bn%2F1UjMBufXyvAG%2B64flFVxhcnH5eLBFXjqT%2FAu9BA7cxV3fujI%2Blkhwr%2BzYi4%2BneSw%3D%3D&mapX=128.6142847&mapY=36.0345423&radius=20000&_type=json`
+    `https://apis.data.go.kr/B551011/GoCamping/locationBasedList?numOfRows=${topic}&pageNo=1&MobileOS=etc&MobileApp=testweb&serviceKey=gBtrW32SeG0AZeOPjc0%2Bn%2F1UjMBufXyvAG%2B64flFVxhcnH5eLBFXjqT%2FAu9BA7cxV3fujI%2Blkhwr%2BzYi4%2BneSw%3D%3D&mapX=128.5940482&mapY=35.8683476&radius=20000&_type=json`
   );
   let response = await fetch(url);
   let data = await response.json();
   console.log("newurl", data);
-  campingList = data.hits;
+  campingList = data.response.body.items.item;
   render();
 };
+
 baseCampAPI();

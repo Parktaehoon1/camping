@@ -71,3 +71,11 @@ select {
   font-size: 18px;
   font-weight: 800;
 }
+.camping-list {
+  position: relative;
+  display: flex;
+  margin: 20px 0;
+}
+.camping-desc {
+  padding: 0 20px;
+}
