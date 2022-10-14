@@ -29,6 +29,9 @@ console.log("🚀 ~ file: main.js ~ line 26 ~ campingList", campingList);
 let locateList = [];
 console.log("🚀 ~ file: main.js ~ line 24 ~ locateList", locateList);
 
+let locateListTotal = [];
+console.log("🚀 ~ file: main.js ~ line 33 ~ locateListTotal", locateListTotal);
+
 let selectList = document.getElementById("show-all-list");
 console.log("selectList", selectList);
 
@@ -135,6 +138,7 @@ const baseCampAPI = async () => {
 
 const render = () => {
   let campingHTML = "";
+  locateList = [];
   campingHTML = campingList
     .map((item) => {
       //여기서 돌면 안될거같은데.. 음ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ
@@ -144,7 +148,8 @@ const render = () => {
       };
       console.log("mapmaplist", maplist);
       console.log("campingList", campingList);
-      locateList = campingList;
+      locateListTotal.push(maplist);
+      console.log("선생님ㅁ", locateList);
       // locateList.push(maplist);
       // markerCheck(maplist);
       // console.log("map도는 캠핑리스트", locateList);
