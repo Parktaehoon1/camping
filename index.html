@@ -11,18 +11,19 @@
     <div class="wrap">
       <header class="header">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <h1 style="text-transform: uppercase">Camping spot</h1>
+        <h1>Camping spot</h1>
       </header>
       <div id="map" style="width: 500px; height: 400px"></div>
-      <select name="show-list" id="show-all-list">
-        <option value="" selected disabled>목록보기</option>
-        <option value="5">5개 보기</option>
-        <option value="10">10개 보기</option>
-        <option value="20">20개 보기</option>
-      </select>
-      <section id="camping-board">
+      <div class="main">
         <h2 class="recommend-list">recommend list</h2>
-      </section>
+        <select name="show-list" id="show-all-list">
+          <option value="" selected disabled>열기</option>
+          <option value="5">5개 보기</option>
+          <option value="10">10개 보기</option>
+          <option value="20">20개 보기</option>
+        </select>
+      </div>
+      <section id="camping-board"></section>
     </div>
   </body>
   <script

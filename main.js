@@ -138,13 +138,16 @@ const render = () => {
   campingHTML = campingList
     .map((item) => {
       //여기서 돌면 안될거같은데.. 음ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ
-      // maplist = {
-      //   mapX: item.mapX,
-      //   mapY: item.mapY,
-      // };
+      maplist = {
+        mapX: item.mapX,
+        mapY: item.mapY,
+      };
+      console.log("mapmaplist", maplist);
+      console.log("campingList", campingList);
+      locateList = campingList;
       // locateList.push(maplist);
       // markerCheck(maplist);
-      console.log("map도는 캠핑리스트", locateList);
+      // console.log("map도는 캠핑리스트", locateList);
 
       return `<div class="camping-list">
                 <div class="camping-img">
