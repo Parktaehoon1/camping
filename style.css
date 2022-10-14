@@ -48,8 +48,8 @@ a {
 }
 select {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 35%;
+  top: 20px;
   border: none;
   cursor: pointer;
   outline: none;
@@ -57,7 +57,7 @@ select {
 
 #camping-board {
   position: relative;
-  display: block;
+  display: none;
   width: 1200px;
   margin: 0 auto;
 }

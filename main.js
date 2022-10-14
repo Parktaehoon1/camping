@@ -23,6 +23,7 @@ marker.setMap(map);
 
 // 공공api 담을 배열
 let campingList = [];
+console.log("🚀 ~ file: main.js ~ line 26 ~ campingList", campingList);
 
 // 공공api의 좌표를 담을 배열
 let locateList = [];
@@ -32,7 +33,9 @@ let selectList = document.getElementById("show-all-list");
 console.log("selectList", selectList);
 
 selectList.addEventListener("change", (event) => {
-  console.log(event);
+  console.log("selectList 안의 event", event); // event 값 넘어옴
+  // selectList 가 change 됐을때 event를 getListInfo로 넘겨랏
+  document.getElementById("camping-board").style.display = "block";
   getListInfo(event);
 });
 
@@ -134,11 +137,12 @@ const render = () => {
   let campingHTML = "";
   campingHTML = campingList
     .map((item) => {
-      maplist = {
-        mapX: item.mapX,
-        mapY: item.mapY,
-      };
-      locateList.push(maplist);
+      //여기서 돌면 안될거같은데.. 음ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ
+      // maplist = {
+      //   mapX: item.mapX,
+      //   mapY: item.mapY,
+      // };
+      // locateList.push(maplist);
       // markerCheck(maplist);
       console.log("map도는 캠핑리스트", locateList);
 
